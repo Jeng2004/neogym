@@ -1,11 +1,11 @@
 - name: Build Docker Image
   hosts: dockerservers
-  gather_facts: false
+  gather_facts: no
   remote_user: root
   tasks:
     - name: Build the Docker image
       docker_image:
-        name: neogym   # Name of your image
-        tag: latest    # Tag for the image
+        name: neogym               # Image name
+        tag: latest                # Image tag
         build:
-          path: /var/lib/jenkins/workspace/neogym  # Path to your Docker context
+          path: /var/lib/jenkins/workspace/neogym # Directory with Dockerfile
