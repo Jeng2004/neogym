@@ -19,7 +19,7 @@ pipeline {
         stage("Deploy Docker Container") {
             steps {
                 // Use Ansible to deploy the Docker container
-                ansible-playbook /var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml
+                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml'
             }
         }
     }
