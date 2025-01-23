@@ -1,5 +1,5 @@
 - name: Deploy Docker Container
-  hosts: dockerserver
+  hosts: dockerservers
   gather_facts: false
   remote_user: root
   tasks:
