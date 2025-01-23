@@ -17,3 +17,4 @@
           - "80:80"             # Port mapping
         state: started
         restart: true
+        restart_policy: always
