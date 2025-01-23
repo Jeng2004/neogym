@@ -3,14 +3,14 @@ pipeline {
     stages {
         stage("Checkout SCM") {
             steps {
-                git url: 'https://github.com/Jeng2004/neogym.git'
+                git url: 'https://github.com/Jeng2004/neogym.git', branch: 'main'
             }
         }
 
         stage("Prepare Workspace") {
             steps {
-                // Ensure the admin directory exists on the remote Docker server
-                sh "mkdir -p /var/lib/jenkins/workspace/admin"
+               // Create the admin directory on the Docker server
+                sh "ssh root@13.60.67.78 'mkdir -p ~/admin'"
             }
         }
 
@@ -20,21 +20,21 @@ pipeline {
                 sh "echo 'Listing files in the Jenkins workspace:'"
                 sh "ls -la /var/lib/jenkins/workspace/neogym/"
                 
-                // Use SCP command, making sure to disable strict host key checking for testing purposes
+                // Copy files using SCP
                 sh "scp -o StrictHostKeyChecking=no -r /var/lib/jenkins/workspace/neogym/* root@13.60.67.78:~/admin"
             }
         }
 
         stage("Build Docker Image") {
             steps {
-                // Example of invoking Ansible playbook
+                // Invoke the Ansible playbook for building the Docker image
                 ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/build.yaml'
             }
         }
 
         stage("Create Docker Container") {
             steps {
-                // Ensure the correct path to the Ansible playbook
+                // Run the Ansible playbook for deploying the Docker container
                 ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml'
             }
         }
