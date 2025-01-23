@@ -10,7 +10,7 @@ pipeline {
                 sh "ls -la /var/lib/jenkins/workspace/neogym/"
                 
                 // Use the correct path based on your repo structure
-                sh "scp -r /var/lib/jenkins/workspace/neogym/* root@16.171.116.154:~/admin"
+                sh "scp -r /var/lib/jenkins/workspace/neogym/* root@13.60.67.78:~/admin"
             }
         }
         
