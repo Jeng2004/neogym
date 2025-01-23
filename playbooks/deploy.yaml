@@ -2,12 +2,12 @@
   hosts: dockerservers
   gather_facts: false
   remote_user: root
-tasks:
-  - name: Create Docker Container
-    docker_container:
-      name: neogym-container
-      image: neogym-container:latest  # This should match the built image name
-      state: started
-      ports:
-        - "80:80"
-      restart_policy: always
+  tasks:
+    - name: Create Docker Container
+      docker_container:
+        name: neogym-container
+        image: neogym:latest
+        state: started
+        ports:
+          - "80:80"
+        restart_policy: always
