@@ -10,7 +10,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script {
-                    // Build the Docker image from the Dockerfile in the repository
+                    // Use Ansible to build the Docker image
                     ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/build.yaml'
                 }
             }
@@ -18,6 +18,7 @@ pipeline {
 
         stage("Deploy Docker Container") {
             steps {
+                // Use Ansible to deploy the Docker container
                 ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml'
             }
         }
