@@ -3,7 +3,11 @@ pipeline {
     stages {      
         stage("Copy file to Docker server") {
             steps {
-                // Ensure the source directory is correct
+                                // Debugging step to list files before the copy
+                sh "echo 'Listing files in the admin directory:'"
+                sh "ls -la /var/lib/jenkins/workspace/admin/"
+                
+                // Proceed with scp command
                 sh "scp -r /var/lib/jenkins/workspace/admin/* root@16.171.116.154:~/admin"
             }
         }
