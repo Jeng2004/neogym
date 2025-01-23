@@ -1,11 +1,11 @@
 - name: Build Docker Image
-  hosts: dockerservers
+  hosts: 13.60.67.78  # Directly specify server if inventory issues persist
   gather_facts: false
   remote_user: root
   tasks:
     - name: Build the Docker image
       docker_image:
-        name: neogym                  # Name of your image
-        tag: latest                   # Tag for the image
+        name: neogym
+        tag: latest
         build:
-          path: /var/lib/jenkins/workspace/neogym  # Path to your Dockerfile
+          path: /var/lib/jenkins/workspace/neogym
