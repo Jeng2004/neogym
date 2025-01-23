@@ -1,31 +1,42 @@
 pipeline {
     agent any
-    stages {      
-        stage("Copy file to Docker server") {
-            steps {                // Create admin directory if it doesn't exist
+    stages {
+        stage("Checkout SCM") {
+            steps {
+                git url: 'https://github.com/Jeng2004/neogym.git'
+            }
+        }
+
+        stage("Prepare Workspace") {
+            steps {
+                // Ensure the admin directory exists on the remote Docker server
                 sh "mkdir -p /var/lib/jenkins/workspace/admin"
-                
-                // List and copy from the appropriate path
+            }
+        }
+
+        stage("Copy files to Docker server") {
+            steps {
+                // Add debugging information
                 sh "echo 'Listing files in the Jenkins workspace:'"
                 sh "ls -la /var/lib/jenkins/workspace/neogym/"
                 
-                // Use the correct path based on your repo structure
-                sh "scp -r /var/lib/jenkins/workspace/neogym/* root@13.60.67.78:~/admin"
+                // Use SCP command, making sure to disable strict host key checking for testing purposes
+                sh "scp -o StrictHostKeyChecking=no -r /var/lib/jenkins/workspace/neogym/* root@13.60.67.78:~/admin"
             }
         }
-        
+
         stage("Build Docker Image") {
             steps {
-                // Path to your Ansible playbook for building the Docker image
-                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/admin/playbooks/build.yaml'
-            }    
-        } 
-        
+                // Example of invoking Ansible playbook
+                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/build.yaml'
+            }
+        }
+
         stage("Create Docker Container") {
             steps {
-                // Path to your Ansible playbook for deploying the Docker container
-                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/admin/playbooks/deploy.yaml'
-            }    
+                // Ensure the correct path to the Ansible playbook
+                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml'
+            }
         }
     }
 }
