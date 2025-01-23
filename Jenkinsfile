@@ -18,7 +18,7 @@ pipeline {
         stage('Create Docker Container') {
             steps {
                 sh '''
-                ssh -i ~/.ssh/id_rsa root@13.60.223.206 "
+                ssh -i ~/.ssh/id_rsa root@16.171.116.154 "
                 if docker ps -a --filter 'name=neogym_container' --format '{{.ID}}' | grep .; then
                     docker rm -f neogym_container
                 fi
