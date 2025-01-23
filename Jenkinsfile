@@ -2,13 +2,15 @@ pipeline {
     agent any
     stages {      
         stage("Copy file to Docker server") {
-            steps {
-                                // Debugging step to list files before the copy
-                sh "echo 'Listing files in the admin directory:'"
-                sh "ls -la /var/lib/jenkins/workspace/admin/"
+            steps {                // Create admin directory if it doesn't exist
+                sh "mkdir -p /var/lib/jenkins/workspace/admin"
                 
-                // Proceed with scp command
-                sh "scp -r /var/lib/jenkins/workspace/admin/* root@16.171.116.154:~/admin"
+                // List and copy from the appropriate path
+                sh "echo 'Listing files in the Jenkins workspace:'"
+                sh "ls -la /var/lib/jenkins/workspace/neogym/"
+                
+                // Use the correct path based on your repo structure
+                sh "scp -r /var/lib/jenkins/workspace/neogym/* root@16.171.116.154:~/admin"
             }
         }
         
