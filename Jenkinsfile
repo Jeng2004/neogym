@@ -10,7 +10,7 @@ pipeline {
         stage("Prepare Workspace") {
             steps {
                // Create the admin directory on the Docker server
-                sh "ssh root@13.60.67.78 'mkdir -p ~/admin'"
+                sh "ssh -o StrictHostKeyChecking=no root@13.60.67.78 'mkdir -p ~/admin'"
             }
         }
 
