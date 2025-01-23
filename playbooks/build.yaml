@@ -5,7 +5,7 @@
   tasks:
     - name: Build the Docker image
       docker_image:
-        name: neogym
-        tag: latest
+        name: neogym   # Name of your image
+        tag: latest    # Tag for the image
         build:
-          path: /var/lib/jenkins/workspace/neogym
+          path: /var/lib/jenkins/workspace/neogym  # Path to your Docker context
