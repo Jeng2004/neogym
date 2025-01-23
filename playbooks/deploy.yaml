@@ -3,18 +3,11 @@
   gather_facts: false
   remote_user: root
   tasks:
-    - name: Build the Docker image
-      docker_image:
-        name: neogym
-        tag: latest
-        path: /var/lib/jenkins/workspace/neogym/Dockerfile # Path where your Dockerfile is located
-
-    - name: Creating the Container
+    - name: Create Docker Container
       docker_container:
-        name: neogym-container  # Docker container name
-        image: neogym:latest    # Docker image name
-        ports:
-          - "80:80"             # Port mapping
+        name: neogym-container
+        image: neogym:latest  # Ensure this image exists
         state: started
-        restart: true
+        ports:
+          - "80:80"
         restart_policy: always
