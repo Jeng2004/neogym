@@ -6,7 +6,7 @@ tasks:
   - name: Create Docker Container
     docker_container:
       name: neogym-container
-      image: neogym:latest  # This should match the built image name
+      image: neogym-container:latest  # This should match the built image name
       state: started
       ports:
         - "80:80"
