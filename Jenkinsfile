@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image from the Dockerfile in the repository
-                    sh "docker build -t neogym:latest /var/lib/jenkins/workspace/neogym"
+                    ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/build.yaml'
                 }
             }
         }
