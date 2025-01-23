@@ -1,25 +1,30 @@
 pipeline {
     agent any
     stages {
-        stage("Checkout SCM") {
+        stage('Copy file to Docker server') {
             steps {
-                git url: 'https://github.com/Jeng2004/neogym.git', branch: 'main'
+                sh '''
+                scp -i ~/.ssh/id_rsa -r /var/lib/jenkins/workspace/neogym/* root@16.171.116.154:~/neogym
+                '''
             }
         }
-
-        stage("Build Docker Image") {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    // Use Ansible to build the Docker image
-                    ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/build.yaml'
-                }
+                sh '''
+                ssh -i ~/.ssh/id_rsa root@13.60.223.206 "cd ~/neogym && docker build -t neogym ."
+                '''
             }
         }
-
-        stage("Deploy Docker Container") {
+        stage('Create Docker Container') {
             steps {
-                // Use Ansible to deploy the Docker container
-                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/neogym/playbooks/deploy.yaml'
+                sh '''
+                ssh -i ~/.ssh/id_rsa root@13.60.223.206 "
+                if docker ps -a --filter 'name=neogym_container' --format '{{.ID}}' | grep .; then
+                    docker rm -f neogym_container
+                fi
+                docker run -d --name neogym_container -p 80:80 neogym_image
+                "
+                '''
             }
         }
     }
