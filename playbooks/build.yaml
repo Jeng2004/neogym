@@ -1,5 +1,5 @@
 - name: Build Docker Image
-  hosts: 13.60.67.78  # Directly specify server if inventory issues persist
+  hosts: dockerservers
   gather_facts: false
   remote_user: root
   tasks:
